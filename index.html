@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReturnsX - Effortless Return Solutions for All</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 140px 2rem 100px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .about-section {
+            background: linear-gradient(to bottom, #f8f9ff, white);
+            padding: 80px 2rem;
+            text-align: center;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .steps-section {
+            background: #f8f9ff;
+            padding: 80px 2rem;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .step p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .barcode-scanner {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+
+        .scanner-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .scanner-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .scanner-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .scanner-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .scanner-status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .scanner-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .admin-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .admin-link:hover {
+            opacity: 0.7;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 80px;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ReturnsX</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Effortless Return Solutions for All</h1>
+        <p>Scan. Ship. Done.</p>
+        <button class="cta-button" onclick="document.getElementById('how-it-works').scrollIntoView({behavior: 'smooth'})">Get Started Now</button>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <h2>About ReturnsX</h2>
+            <p>Manage returns from FedEx, UPS, and USPS in one powerful platform. Save time, skip the hassle. ReturnsX brings together all your shipping carriers in a single, easy-to-use interface designed to make returns effortless.</p>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Barcode Scanning Returns</h3>
+            <p>Effortlessly manage your returns with our intuitive barcode scanning technology. Simply scan and upload to get started.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Collated Shipment Management</h3>
+            <p>Streamline your returns with our intelligent shipment collation system that works seamlessly across all major carriers.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🛠️</div>
+            <h3>Difficult Return Handling</h3>
+            <p>Expert assistance for your most challenging returns. We handle the complexity so you don't have to.</p>
+        </div>
+    </section>
+
+    <section class="steps-section" id="how-it-works">
+        <div class="steps-container">
+            <h2 class="steps-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Scan Your Barcode</h3>
+                    <p>Enter or scan your barcode to get started. All barcodes are securely stored and accessible anytime.</p>
+                    
+                    <div class="barcode-scanner">
+                        <input 
+                            type="text" 
+                            id="barcodeInput" 
+                            class="scanner-input" 
+                            placeholder="Enter barcode or QR code..."
+                        >
+                        <button class="scanner-button" onclick="submitBarcode()">Submit Code</button>
+                        <button class="scanner-button" onclick="startQRScanner()" style="margin-top: 0.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            📷 Scan QR Code with Camera
+                        </button>
+                        <video id="qrVideo" style="width: 100%; max-width: 400px; display: none; margin-top: 1rem; border-radius: 10px;"></video>
+                        <canvas id="qrCanvas" style="display: none;"></canvas>
+                        <div id="scannerStatus" class="scanner-status"></div>
+                        <a href="#" class="admin-link" onclick="viewAllBarcodes(event)">View All Scanned Codes →</a>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Choose Your Carrier</h3>
+                    <p>Label your package and select from any of the top shipping carriers including FedEx, UPS, and USPS.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Pack Your Item</h3>
+                    <p>Securely pack your return item following our simple guidelines for safe shipping.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Drop Off Your Package</h3>
+                    <p>Drop off your package at your chosen carrier location easily and conveniently.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2024 ReturnsX. All rights reserved.</p>
+        <p>Experience hassle-free returns like never before!</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <script>
+        let videoStream = null;
+        let scanning = false;
+
+        // Initialize storage on page load
+        async function initStorage() {
+            try {
+                const barcodes = await window.storage.get('returnsx-barcodes');
+                console.log('Storage initialized');
+            } catch (error) {
+                console.log('No existing barcodes found, will create on first submission');
+            }
+        }
+
+        async function startQRScanner() {
+            const video = document.getElementById('qrVideo');
+            const canvas = document.getElementById('qrCanvas');
+            const status = document.getElementById('scannerStatus');
+            const button = event.target;
+
+            if (scanning) {
+                // Stop scanning
+                stopQRScanner();
+                button.textContent = '📷 Scan QR Code with Camera';
+                button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                return;
+            }
+
+            try {
+                // Request camera access
+                videoStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
+                
+                video.srcObject = videoStream;
+                video.style.display = 'block';
+                video.play();
+                
+                scanning = true;
+                button.textContent = '⏹️ Stop Scanning';
+                button.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+
+                status.className = 'scanner-status';
+                status.style.display = 'block';
+                status.style.background = '#e0f2fe';
+                status.style.color = '#0369a1';
+                status.textContent = '📸 Point camera at QR code...';
+
+                // Start scanning
+                scanQRCode(video, canvas);
+
+            } catch (error) {
+                status.className = 'scanner-status error';
+                status.textContent = 'Camera access denied. Please enable camera permissions.';
+                console.error('Camera error:', error);
+            }
+        }
+
+        function scanQRCode(video, canvas) {
+            if (!scanning) return;
+
+            const context = canvas.getContext('2d');
+            
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (code) {
+                    // QR code detected!
+                    document.getElementById('barcodeInput').value = code.data;
+                    stopQRScanner();
+                    submitBarcode();
+                    return;
+                }
+            }
+            
+            requestAnimationFrame(() => scanQRCode(video, canvas));
+        }
+
+        function stopQRScanner() {
+            scanning = false;
+            const video = document.getElementById('qrVideo');
+            
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                videoStream = null;
+            }
+            
+            video.style.display = 'none';
+            video.srcObject = null;
+        }
+
+        async function submitBarcode() {
+            const input = document.getElementById('barcodeInput');
+            const status = document.getElementById('scannerStatus');
+            const barcode = input.value.trim();
+
+            if (!barcode) {
+                status.className = 'scanner-status error';
+                status.textContent = 'Please enter a barcode or scan a QR code';
+                return;
+            }
+
+            try {
+                // Get existing barcodes
+                let barcodes = [];
+                try {
+                    const result = await window.storage.get('returnsx-barcodes');
+                    if (result && result.value) {
+                        barcodes = JSON.parse(result.value);
+                    }
+                } catch (error) {
+                    console.log('Creating new barcode list');
+                }
+
+                // Add new barcode with timestamp
+                const newEntry = {
+                    barcode: barcode,
+                    timestamp: new Date().toISOString(),
+                    id: Date.now(),
+                    type: barcode.length > 20 ? 'QR Code' : 'Barcode'
+                };
+                
+                barcodes.push(newEntry);
+
+                // Save to storage
+                await window.storage.set('returnsx-barcodes', JSON.stringify(barcodes));
+
+                // Show success
+                status.className = 'scanner-status success';
+                status.textContent = `✓ ${newEntry.type} saved successfully! (${barcode.substring(0, 30)}${barcode.length > 30 ? '...' : ''})`;
+                input.value = '';
+
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    status.className = 'scanner-status';
+                    status.style.display = 'none';
+                }, 3000);
+
+            } catch (error) {
+                status.className = 'scanner-status error';
+                status.textContent = 'Error saving code. Please try again.';
+                console.error('Storage error:', error);
+            }
+        }
+
+        async function viewAllBarcodes(event) {
+            event.preventDefault();
+            
+            try {
+                const result = await window.storage.get('returnsx-barcodes');
+                
+                if (!result || !result.value) {
+                    alert('No codes scanned yet. Scan your first code to get started!');
+                    return;
+                }
+
+                const barcodes = JSON.parse(result.value);
+                
+                // Create a formatted display of all barcodes
+                let display = '═══════════════════════════════\n';
+                display += '    RETURNSX CODE DATABASE\n';
+                display += '═══════════════════════════════\n\n';
+                display += `Total Scans: ${barcodes.length}\n\n`;
+                
+                barcodes.forEach((entry, index) => {
+                    const date = new Date(entry.timestamp);
+                    display += `${index + 1}. [${entry.type || 'Barcode'}] ${entry.barcode}\n`;
+                    display += `   ${date.toLocaleString()}\n\n`;
+                });
+
+                alert(display);
+                
+            } catch (error) {
+                alert('No codes found. Start scanning to build your database!');
+                console.error('Error retrieving codes:', error);
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('barcodeInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                submitBarcode();
+            }
+        });
+
+        // Initialize when page loads
+        window.addEventListener('load', initStorage);
+
+        // Clean up camera on page unload
+        window.addEventListener('beforeunload', stopQRScanner);
+    </script>
+</body>
+</html>
