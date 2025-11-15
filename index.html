@@ -191,19 +191,170 @@
             margin-bottom: 3rem;
         }
 
-        .google-form-container {
+        .custom-form {
             background: white;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 3rem;
         }
 
-        .placeholder-form {
-            min-height: 400px;
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload-area {
+            border: 3px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+        }
+
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: #e6eaff;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        .file-preview {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .file-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: #f8f9ff;
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            gap: 0.75rem;
+        }
+
+        .file-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .file-size {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .remove-file {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+        }
+
+        .remove-file:hover {
+            background: #e53e3e;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
         }
 
         .steps-section {
@@ -267,71 +418,6 @@
             margin-bottom: 1rem;
         }
 
-        .barcode-scanner {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-top: 1rem;
-        }
-
-        .scanner-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .scanner-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.3s;
-        }
-
-        .scanner-button:hover {
-            transform: translateY(-2px);
-        }
-
-        .scanner-status {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .scanner-status.success {
-            background: #d4edda;
-            color: #155724;
-            display: block;
-        }
-
-        .scanner-status.error {
-            background: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-
-        .admin-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .admin-link:hover {
-            opacity: 0.7;
-        }
-
         footer {
             background: #2d3748;
             color: white;
@@ -370,6 +456,10 @@
 
             .steps {
                 grid-template-columns: 1fr;
+            }
+
+            .custom-form {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -426,25 +516,57 @@
             <h2 class="form-title">Scan Your Return</h2>
             <p class="form-description">Fill out the form below to get started with your return</p>
             
-            <div class="google-form-container">
-                <!-- PASTE YOUR GOOGLE FORM EMBED CODE HERE -->
-                <!-- 
-                To embed your Google Form:
-                1. Open your Google Form
-                2. Click "Send" button
-                3. Click the "<>" (Embed HTML) icon
-                4. Copy the iframe code
-                5. Paste it here replacing this comment and the placeholder div below
-                
-                Example:
-                <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-                -->
-                
-                <div class="placeholder-form">
-                    <p style="color: #666; text-align: center; padding: 3rem;">
-                        📋 Your Google Form will appear here<br><br>
-                        <small>Replace the placeholder with your Google Form embed code in the HTML</small>
-                    </p>
+            <div class="custom-form">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="barcode">Barcode Number *</label>
+                    <input type="text" id="barcode" placeholder="Enter or scan your barcode" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="carrier">Shipping Carrier *</label>
+                    <select id="carrier" required>
+                        <option value="">Select a carrier</option>
+                        <option value="fedex">FedEx</option>
+                        <option value="ups">UPS</option>
+                        <option value="usps">USPS</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" placeholder="Any special instructions or details about your return"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Images/Documents *</label>
+                    <div class="file-upload-area" id="dropArea">
+                        <div class="file-upload-icon">📎</div>
+                        <div class="file-upload-text">
+                            <strong>Drag & drop files here</strong> or click to browse
+                        </div>
+                        <div style="color: #999; font-size: 0.9rem;">
+                            Accepted: Images (JPG, PNG) and PDFs (Max 5MB each)
+                        </div>
+                        <input type="file" id="fileInput" class="file-upload-input" multiple accept="image/*,.pdf">
+                    </div>
+                    <div class="file-preview" id="filePreview"></div>
+                </div>
+
+                <button class="submit-button" id="submitBtn">Submit Return Request</button>
+
+                <div class="success-message" id="successMessage">
+                    <h3>✓ Return Request Submitted Successfully!</h3>
+                    <p>We've received your return information. You'll receive a confirmation email shortly.</p>
                 </div>
             </div>
         </div>
@@ -486,6 +608,175 @@
         <p>Experience hassle-free returns like never before!</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+    <script>
+        const uploadedFiles = [];
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Click to upload
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        // Drag and drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            [...files].forEach(file => {
+                if (validateFile(file)) {
+                    uploadedFiles.push(file);
+                    previewFile(file);
+                }
+            });
+        }
+
+        function validateFile(file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload only JPG, PNG, or PDF files.');
+                return false;
+            }
+
+            if (file.size > maxSize) {
+                alert('File size must be less than 5MB.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function previewFile(file) {
+            const reader = new FileReader();
+            const fileIndex = uploadedFiles.length - 1;
+
+            reader.onload = (e) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.dataset.index = fileIndex;
+
+                let preview = '';
+                if (file.type.startsWith('image/')) {
+                    preview = `<img src="${e.target.result}" alt="${file.name}">`;
+                } else {
+                    preview = '<div style="width:50px;height:50px;background:#667eea;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;">PDF</div>';
+                }
+
+                fileItem.innerHTML = `
+                    ${preview}
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button class="remove-file" onclick="removeFile(${fileIndex})">Remove</button>
+                `;
+
+                filePreview.appendChild(fileItem);
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function removeFile(index) {
+            uploadedFiles[index] = null;
+            const fileItem = document.querySelector(`[data-index="${index}"]`);
+            if (fileItem) fileItem.remove();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        submitBtn.addEventListener('click', async () => {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const barcode = document.getElementById('barcode').value;
+            const carrier = document.getElementById('carrier').value;
+            const notes = document.getElementById('notes').value;
+
+            // Validate required fields
+            if (!name || !email || !barcode || !carrier) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (uploadedFiles.filter(f => f !== null).length === 0) {
+                alert('Please upload at least one file.');
+                return;
+            }
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Here you would normally send the data to your server
+            // For demonstration, we'll simulate a successful submission
+            
+            const formData = {
+                name,
+                email,
+                barcode,
+                carrier,
+                notes,
+                files: uploadedFiles.filter(f => f !== null).map(f => ({
+                    name: f.name,
+                    size: f.size,
+                    type: f.type
+                }))
+            };
+
+            console.log('Form data:', formData);
+            console.log('Files:', uploadedFiles.filter(f => f !== null));
+
+            // Simulate server delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Show success message
+            successMessage.classList.add('show');
+            submitBtn.textContent = 'Submit Return Request';
+            submitBtn.disabled = false;
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                document.querySelectorAll('input, select, textarea').forEach(el => el.value = '');
+                filePreview.innerHTML = '';
+                uploadedFiles.length = 0;
+                successMessage.classList.remove('show');
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
