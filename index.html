@@ -514,60 +514,24 @@
     <section class="form-section" id="scan-form">
         <div class="form-container">
             <h2 class="form-title">Scan Your Return</h2>
-            <p class="form-description">Fill out the form below to get started with your return</p>
+            <p class="form-description">Click the button below to access our return form</p>
             
-            <div class="custom-form">
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="barcode">Barcode Number *</label>
-                    <input type="text" id="barcode" placeholder="Enter or scan your barcode" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="carrier">Shipping Carrier *</label>
-                    <select id="carrier" required>
-                        <option value="">Select a carrier</option>
-                        <option value="fedex">FedEx</option>
-                        <option value="ups">UPS</option>
-                        <option value="usps">USPS</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Additional Notes</label>
-                    <textarea id="notes" placeholder="Any special instructions or details about your return"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Upload Images/Documents *</label>
-                    <div class="file-upload-area" id="dropArea">
-                        <div class="file-upload-icon">📎</div>
-                        <div class="file-upload-text">
-                            <strong>Drag & drop files here</strong> or click to browse
-                        </div>
-                        <div style="color: #999; font-size: 0.9rem;">
-                            Accepted: Images (JPG, PNG) and PDFs (Max 5MB each)
-                        </div>
-                        <input type="file" id="fileInput" class="file-upload-input" multiple accept="image/*,.pdf">
-                    </div>
-                    <div class="file-preview" id="filePreview"></div>
-                </div>
-
-                <button class="submit-button" id="submitBtn">Submit Return Request</button>
-
-                <div class="success-message" id="successMessage">
-                    <h3>✓ Return Request Submitted Successfully!</h3>
-                    <p>We've received your return information. You'll receive a confirmation email shortly.</p>
-                </div>
+            <div class="custom-form" style="text-align: center; padding: 4rem 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 2rem;">📋</div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #333;">Ready to Start Your Return?</h3>
+                <p style="color: #666; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Click the button below to access our secure return form. You'll be able to upload images, documents, and provide all necessary details for your return.
+                </p>
+                
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfsF7gBr-n2COemt5Ig2-zdVpg7Jy1fUpmDj26iJFF9C318Ng/viewform?usp=dialog" target="_blank" style="text-decoration: none;">
+                    <button class="submit-button" style="width: auto; padding: 1.25rem 3rem; display: inline-block;">
+                        Open Return Form →
+                    </button>
+                </a>
+                
+                <p style="color: #999; font-size: 0.9rem; margin-top: 1.5rem;">
+                    Opens in a new tab • Secure Google Form
+                </p>
             </div>
         </div>
     </section>
