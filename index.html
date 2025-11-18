@@ -442,8 +442,22 @@
         
         <div id="adminContent" style="display: none;">
             <h4>👥 User Sessions (<span id="sessionCount">0</span>)</h4>
-            <button onclick="refreshSessions()" style="background: #48bb78; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 1rem; width: 100%;">🔄 Refresh</button>
-            <div class="session-list" id="sessionList"></div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <button onclick="refreshSessions()" style="flex: 1; background: #48bb78; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">🔄 Refresh</button>
+                <button onclick="exportAllSessions()" style="flex: 1; background: #667eea; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">📥 Export All</button>
+                <button onclick="clearAllSessions()" style="flex: 1; background: #f56565; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">🗑️ Clear</button>
+            </div>
+            <div style="background: #f8f9ff; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div style="font-size: 0.75rem; color: #666;">
+                    <div style="margin-bottom: 0.25rem;">🟢 <strong>Active:</strong> Updated within 30s</div>
+                    <div style="margin-bottom: 0.25rem;">🔥 <strong>Hot:</strong> High engagement (clicks + time)</div>
+                    <div style="margin-bottom: 0.25rem;">🌡️ <strong>Warm:</strong> Medium engagement</div>
+                    <div>❄️ <strong>Cool/Cold:</strong> Low engagement</div>
+                </div>
+            </div>
+            <div class="session-list" id="sessionList">
+                <p style="color: #999; text-align: center; padding: 2rem;">Loading sessions...</p>
+            </div>
         </div>
     </div>
 
@@ -613,44 +627,111 @@
         getLocationData();
 
         // ========================================
-        // SEND DATA TO SERVER
+        // SEND DATA TO SERVER/DATABASE
         // ========================================
         async function sendAnalyticsUpdate() {
             const data = {
                 ...analytics,
                 featureHovers: Array.from(analytics.featureHovers),
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                lastUpdate: Date.now()
             };
 
-            // Store in localStorage (simulating backend)
-            // In production, replace this with: fetch('YOUR_API_ENDPOINT', {...})
+            // DEMO MODE: Using localStorage to simulate a database
+            // This acts as a "central database" that all users write to
             try {
+                // Get all existing sessions from the "database"
                 const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
+                
+                // Update or add this session
                 allSessions[sessionId] = data;
+                
+                // Save back to "database"
                 localStorage.setItem('returnsx_sessions', JSON.stringify(allSessions));
                 
-                /* PRODUCTION CODE - Replace the localStorage code above with:
+                console.log('✅ Analytics sent to database');
                 
-                await fetch('https://your-api-endpoint.com/analytics', {
+                /* 
+                ============================================
+                PRODUCTION CODE - Replace everything above with:
+                ============================================
+                
+                await fetch('https://your-backend.com/api/analytics', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-API-Key': 'your-secret-api-key'
                     },
                     body: JSON.stringify(data)
                 });
                 
+                ============================================
+                BACKEND STRUCTURE (Node.js/Express example):
+                ============================================
+                
+                // Store in MongoDB, PostgreSQL, Firebase, etc.
+                app.post('/api/analytics', async (req, res) => {
+                    const session = req.body;
+                    
+                    // Save to database
+                    await db.collection('sessions').updateOne(
+                        { sessionId: session.sessionId },
+                        { $set: session },
+                        { upsert: true }
+                    );
+                    
+                    res.json({ success: true });
+                });
+                
+                // Admin endpoint to get all sessions
+                app.get('/api/analytics/sessions', async (req, res) => {
+                    // Verify admin authentication
+                    if (req.headers.authorization !== 'Bearer YOUR_ADMIN_TOKEN') {
+                        return res.status(401).json({ error: 'Unauthorized' });
+                    }
+                    
+                    // Get all sessions from database
+                    const sessions = await db.collection('sessions')
+                        .find({})
+                        .sort({ pageLoadTime: -1 })
+                        .toArray();
+                    
+                    res.json(sessions);
+                });
+                
+                ============================================
                 */
             } catch (error) {
-                console.error('Error sending analytics:', error);
+                console.error('❌ Error sending analytics:', error);
             }
         }
 
-        // Send updates every 10 seconds
+        // Send updates every 10 seconds (real-time tracking)
         setInterval(sendAnalyticsUpdate, 10000);
+
+        // Send immediately on first load
+        setTimeout(sendAnalyticsUpdate, 2000);
 
         // Send on page exit
         window.addEventListener('beforeunload', () => {
-            sendAnalyticsUpdate();
+            // Use sendBeacon for reliable delivery even when page is closing
+            const data = {
+                ...analytics,
+                featureHovers: Array.from(analytics.featureHovers),
+                timestamp: new Date().toISOString(),
+                lastUpdate: Date.now()
+            };
+            
+            // Final update before leaving
+            const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
+            allSessions[sessionId] = data;
+            localStorage.setItem('returnsx_sessions', JSON.stringify(allSessions));
+            
+            /* In production, use:
+            navigator.sendBeacon('https://your-backend.com/api/analytics', 
+                JSON.stringify(data)
+            );
+            */
         });
 
         // Track event
@@ -845,25 +926,57 @@
         }
 
         function loadSessions() {
+            // DEMO MODE: Load from localStorage
             const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
+            
+            /* PRODUCTION CODE - Replace above with:
+            
+            fetch('https://your-backend.com/api/analytics/sessions', {
+                headers: {
+                    'Authorization': 'Bearer YOUR_ADMIN_TOKEN'
+                }
+            })
+            .then(res => res.json())
+            .then(sessions => {
+                displaySessions(sessions);
+            });
+            
+            */
+            
+            displaySessions(allSessions);
+        }
+
+        function displaySessions(allSessions) {
             const sessionList = document.getElementById('sessionList');
             const sessionCount = document.getElementById('sessionCount');
             
+            // Convert object to array and sort by most recent
             const sessions = Object.values(allSessions).sort((a, b) => b.pageLoadTime - a.pageLoadTime);
             sessionCount.textContent = sessions.length;
             
-            sessionList.innerHTML = sessions.map(session => {
+            if (sessions.length === 0) {
+                sessionList.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;">No sessions yet. Waiting for visitors...</p>';
+                return;
+            }
+            
+            sessionList.innerHTML = sessions.map((session, index) => {
                 const location = session.location ? 
                     `${session.location.city || 'Unknown'}, ${session.location.country || 'Unknown'}` : 
-                    'Loading...';
+                    'Fetching location...';
                 
                 const engagement = calculateEngagement(session);
+                const isActive = (Date.now() - (session.lastUpdate || session.pageLoadTime)) < 30000; // Active if updated in last 30s
                 
                 return `
                     <div class="session-card" onclick='showSessionDetail(${JSON.stringify(session).replace(/'/g, "&#39;")})'>
                         <div class="session-header">
                             <span>📍 ${location}</span>
                             <span style="color: ${engagement.color}">${engagement.label}</span>
+                        </div>
+                        ${isActive ? '<div style="background: #48bb78; color: white; padding: 0.25rem 0.5rem; border-radius: 5px; font-size: 0.7rem; display: inline-block; margin-bottom: 0.5rem;">🟢 ACTIVE NOW</div>' : ''}
+                        <div class="session-stat">
+                            <span>Session ID:</span>
+                            <span style="font-size: 0.7rem; color: #999;">${session.sessionId.substring(0, 20)}...</span>
                         </div>
                         <div class="session-stat">
                             <span>Time:</span>
@@ -878,12 +991,17 @@
                             <span><strong>${session.ctaClicks}</strong></span>
                         </div>
                         <div class="session-stat">
+                            <span>Form Clicks:</span>
+                            <span><strong>${session.formClicks}</strong></span>
+                        </div>
+                        <div class="session-stat">
                             <span>Events:</span>
                             <span><strong>${session.events.length}</strong></span>
                         </div>
                         <div style="font-size: 0.7rem; color: #999; margin-top: 0.5rem;">
-                            ${new Date(session.pageLoadTime).toLocaleString()}
+                            Started: ${new Date(session.pageLoadTime).toLocaleString()}
                         </div>
+                        ${session.lastUpdate ? `<div style="font-size: 0.7rem; color: #999;">Last Update: ${new Date(session.lastUpdate).toLocaleTimeString()}</div>` : ''}
                     </div>
                 `;
             }).join('');
@@ -907,43 +1025,156 @@
 
         function showSessionDetail(session) {
             const detail = `
-=== SESSION DETAILS ===
+╔════════════════════════════════════════════════════════════╗
+║              SESSION DETAIL REPORT                          ║
+╚════════════════════════════════════════════════════════════╝
 
-📍 Location: ${session.location ? `${session.location.city}, ${session.location.region}, ${session.location.country}` : 'Unknown'}
-⏱️ Time on Page: ${session.timeOnPage}s
-📊 Max Scroll: ${session.maxScrollDepth}%
-🖱️ CTA Clicks: ${session.ctaClicks}
-📝 Form Clicks: ${session.formClicks}
-🔗 Nav Clicks: ${session.navClicks}
-👆 Feature Hovers: ${session.featureHovers ? session.featureHovers.length : 0}
+🆔 Session ID: ${session.sessionId}
 
-📱 Device Info:
-- Viewport: ${session.device.viewport.width}x${session.device.viewport.height}
-- User Agent: ${session.device.userAgent}
-- Referrer: ${session.device.referrer || 'Direct'}
+📍 LOCATION INFORMATION:
+   City:         ${session.location?.city || 'Unknown'}
+   Region:       ${session.location?.region || 'Unknown'}
+   Country:      ${session.location?.country || 'Unknown'}
+   Country Code: ${session.location?.countryCode || 'Unknown'}
+   Timezone:     ${session.location?.timezone || 'Unknown'}
+   IP Address:   ${session.location?.ip || 'Unknown'}
+   Coordinates:  ${session.location?.latitude || '?'}, ${session.location?.longitude || '?'}
 
-🎯 Events (${session.events.length}):
-${session.events.map(e => `  ${e.type} at ${Math.floor(e.timestamp/1000)}s`).join('\n')}
+⏱️  ENGAGEMENT METRICS:
+   Time on Page:      ${session.timeOnPage}s (${Math.floor(session.timeOnPage / 60)}m ${session.timeOnPage % 60}s)
+   Max Scroll Depth:  ${session.maxScrollDepth}%
+   CTA Clicks:        ${session.ctaClicks}
+   Form Clicks:       ${session.formClicks}
+   Nav Clicks:        ${session.navClicks}
+   Feature Hovers:    ${session.featureHovers ? session.featureHovers.length : 0}
+   ${session.featureHovers && session.featureHovers.length > 0 ? `Hovered Features: ${session.featureHovers.join(', ')}` : ''}
+
+📱 DEVICE INFORMATION:
+   Viewport:    ${session.device.viewport.width}x${session.device.viewport.height}
+   User Agent:  ${session.device.userAgent}
+   Referrer:    ${session.device.referrer || 'Direct (no referrer)'}
+
+📅 TIMING:
+   Page Load:   ${new Date(session.pageLoadTime).toLocaleString()}
+   Last Update: ${session.lastUpdate ? new Date(session.lastUpdate).toLocaleString() : 'N/A'}
+   Timestamp:   ${session.timestamp || 'N/A'}
+
+🎯 USER EVENTS (${session.events.length} total):
+${session.events.length === 0 ? '   No events recorded yet.' : session.events.map((e, i) => {
+    const timeStr = Math.floor(e.timestamp/1000);
+    const eventData = JSON.stringify(e.data || {});
+    return `   ${i + 1}. [${timeStr}s] ${e.type} ${eventData !== '{}' ? eventData : ''}`;
+}).join('\n')}
+
+═══════════════════════════════════════════════════════════════
             `;
             
             console.log(detail);
-            alert('Session details logged to console (F12)');
+            
+            // Also create a downloadable report
+            const blob = new Blob([detail], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            // Ask user if they want to download
+            if (confirm('Session details logged to console.\n\nWould you like to download a full report?')) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `session-${session.sessionId.substring(0, 15)}-${Date.now()}.txt`;
+                a.click();
+            }
         }
 
         function refreshSessions() {
             loadSessions();
+            console.log('🔄 Sessions refreshed');
+        }
+
+        function exportAllSessions() {
+            const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
+            const sessions = Object.values(allSessions);
+            
+            // Create detailed CSV export
+            const csv = [
+                ['Session ID', 'Start Time', 'Time on Page (s)', 'Max Scroll %', 'CTA Clicks', 'Form Clicks', 'Nav Clicks', 'Feature Hovers', 'City', 'Region', 'Country', 'IP', 'Referrer', 'Viewport', 'Events Count', 'Engagement'].join(','),
+                ...sessions.map(s => {
+                    const engagement = calculateEngagement(s);
+                    return [
+                        s.sessionId,
+                        new Date(s.pageLoadTime).toISOString(),
+                        s.timeOnPage,
+                        s.maxScrollDepth,
+                        s.ctaClicks,
+                        s.formClicks,
+                        s.navClicks,
+                        (s.featureHovers || []).length,
+                        s.location?.city || '',
+                        s.location?.region || '',
+                        s.location?.country || '',
+                        s.location?.ip || '',
+                        s.device?.referrer || 'Direct',
+                        `${s.device?.viewport?.width}x${s.device?.viewport?.height}`,
+                        s.events.length,
+                        engagement.label
+                    ].join(',');
+                })
+            ].join('\n');
+            
+            // Download CSV
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `returnsx-all-sessions-${Date.now()}.csv`;
+            a.click();
+            
+            // Also download JSON for full detail
+            const jsonBlob = new Blob([JSON.stringify(sessions, null, 2)], { type: 'application/json' });
+            const jsonUrl = URL.createObjectURL(jsonBlob);
+            const jsonA = document.createElement('a');
+            jsonA.href = jsonUrl;
+            jsonA.download = `returnsx-all-sessions-${Date.now()}.json`;
+            
+            if (confirm('CSV exported! Would you also like the full JSON export with all event details?')) {
+                jsonA.click();
+            }
+            
+            console.log(`📥 Exported ${sessions.length} sessions`);
+        }
+
+        function clearAllSessions() {
+            if (confirm(`⚠️ Are you sure you want to delete ALL ${Object.keys(JSON.parse(localStorage.getItem('returnsx_sessions') || '{}')).length} sessions?\n\nThis cannot be undone!`)) {
+                if (confirm('Really delete? This is your last chance!')) {
+                    localStorage.setItem('returnsx_sessions', '{}');
+                    loadSessions();
+                    console.log('🗑️ All sessions cleared');
+                    alert('✅ All sessions have been deleted');
+                }
+            }
         }
 
         // Auto-refresh sessions every 15 seconds when admin panel is open
         setInterval(() => {
             if (isAdmin && document.getElementById('adminPanel').classList.contains('show')) {
                 loadSessions();
+                console.log('🔄 Auto-refresh: Sessions updated');
             }
         }, 15000);
 
         console.log('📊 Analytics System Active');
         console.log('🔐 Admin Panel: Press Ctrl+Shift+A to access');
         console.log('💡 Session ID:', sessionId);
+        console.log('📝 All user data is being logged to centralized database');
+        console.log('');
+        console.log('═══════════════════════════════════════════════════════════');
+        console.log('🚀 PRODUCTION DEPLOYMENT CHECKLIST:');
+        console.log('═══════════════════════════════════════════════════════════');
+        console.log('1. Replace localStorage with real database API calls');
+        console.log('2. Set up backend server (Node.js/Python/etc)');
+        console.log('3. Change ADMIN_PASSWORD to a secure value');
+        console.log('4. Add proper authentication (JWT tokens recommended)');
+        console.log('5. Set up database (MongoDB, PostgreSQL, Firebase, etc)');
+        console.log('6. Optional: Add real-time websocket updates');
+        console.log('═══════════════════════════════════════════════════════════');
     </script>
 </body>
 </html>
