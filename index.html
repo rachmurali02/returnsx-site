@@ -168,21 +168,60 @@
             line-height: 1.7;
         }
 
-        .form-section {
+        .waitlist-section {
             background: white;
             padding: 80px 2rem;
         }
 
-        .form-container {
-            max-width: 900px;
+        .waitlist-container {
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .custom-form {
+        .waitlist-form {
             background: white;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             padding: 3rem;
+            text-align: center;
+        }
+
+        .waitlist-form h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .waitlist-form p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         .submit-button {
@@ -201,6 +240,24 @@
 
         .submit-button:hover:not(:disabled) {
             transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #48bb78;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
         }
 
         .steps-section {
@@ -276,114 +333,25 @@
             opacity: 0.8;
         }
 
-        /* Admin Panel - Only visible to authorized users */
-        .admin-panel {
+        /* Notification Toast */
+        .notification {
             position: fixed;
-            top: 80px;
+            top: 100px;
             right: 20px;
             background: white;
-            border-radius: 15px;
+            padding: 16px 24px;
+            border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 1.5rem;
-            width: 350px;
-            max-height: 80vh;
-            overflow-y: auto;
-            z-index: 9999;
-            font-size: 0.85rem;
-            display: none;
-        }
-
-        .admin-panel.show {
-            display: block;
-        }
-
-        .admin-panel h4 {
-            margin-bottom: 1rem;
-            color: #667eea;
-            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
         }
 
-        .admin-login {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .admin-login input {
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .admin-login button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .session-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .session-card {
-            background: #f8f9ff;
-            padding: 1rem;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .session-card:hover {
-            transform: translateX(5px);
-        }
-
-        .session-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .session-stat {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #666;
-            margin: 0.25rem 0;
-        }
-
-        .admin-toggle {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: #2d3748;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            z-index: 9998;
-            transition: transform 0.3s;
-            font-weight: 600;
-        }
-
-        .admin-toggle:hover {
-            transform: scale(1.05);
+        .notification.show {
+            transform: translateX(0);
         }
 
         @keyframes fadeInUp {
@@ -414,50 +382,21 @@
                 grid-template-columns: 1fr;
             }
 
-            .custom-form {
+            .waitlist-form {
                 padding: 1.5rem;
-            }
-
-            .analytics-dashboard {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-                max-width: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Admin Toggle Button (Hidden for regular users) -->
-    <button class="admin-toggle" id="adminToggle" style="display: none;">🔐 Admin</button>
-
-    <!-- Admin Panel (Only for authorized users) -->
-    <div class="admin-panel" id="adminPanel">
-        <div id="adminLogin" class="admin-login">
-            <h4>🔐 Admin Access</h4>
-            <input type="password" id="adminPassword" placeholder="Enter admin password">
-            <button onclick="adminLogin()">Login</button>
-            <p style="color: #999; font-size: 0.75rem; margin-top: 0.5rem;">Demo password: admin123</p>
-        </div>
-        
-        <div id="adminContent" style="display: none;">
-            <h4>👥 User Sessions (<span id="sessionCount">0</span>)</h4>
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                <button onclick="refreshSessions()" style="flex: 1; background: #48bb78; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">🔄 Refresh</button>
-                <button onclick="exportAllSessions()" style="flex: 1; background: #667eea; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">📥 Export All</button>
-                <button onclick="clearAllSessions()" style="flex: 1; background: #f56565; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">🗑️ Clear</button>
-            </div>
-            <div style="background: #f8f9ff; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                <div style="font-size: 0.75rem; color: #666;">
-                    <div style="margin-bottom: 0.25rem;">🟢 <strong>Active:</strong> Updated within 30s</div>
-                    <div style="margin-bottom: 0.25rem;">🔥 <strong>Hot:</strong> High engagement (clicks + time)</div>
-                    <div style="margin-bottom: 0.25rem;">🌡️ <strong>Warm:</strong> Medium engagement</div>
-                    <div>❄️ <strong>Cool/Cold:</strong> Low engagement</div>
-                </div>
-            </div>
-            <div class="session-list" id="sessionList">
-                <p style="color: #999; text-align: center; padding: 2rem;">Loading sessions...</p>
-            </div>
+    <!-- Success Notification -->
+    <div id="notification" class="notification">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: #48bb78;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div>
+            <p style="font-weight: 600; margin-bottom: 4px;">You're on the waitlist!</p>
+            <p style="color: #666; font-size: 0.9rem;">Check your email for confirmation.</p>
         </div>
     </div>
 
@@ -467,7 +406,7 @@
             <ul class="nav-links">
                 <li><a href="#about" data-nav="about">About</a></li>
                 <li><a href="#features" data-nav="features">Features</a></li>
-                <li><a href="#scan-form" data-nav="scan-form">Scan</a></li>
+                <li><a href="#waitlist" data-nav="waitlist">Join Waitlist</a></li>
                 <li><a href="#how-it-works" data-nav="how-it-works">How It Works</a></li>
                 <li><a href="#contact" data-nav="contact">Contact</a></li>
             </ul>
@@ -476,8 +415,8 @@
 
     <section class="hero">
         <h1>Effortless Return Solutions for All</h1>
-        <p>Scan. Ship. Done.</p>
-        <button class="cta-button" data-cta="hero-get-started" onclick="document.getElementById('scan-form').scrollIntoView({behavior: 'smooth'})">Get Started Now</button>
+        <p>Scan. Ship. Done. The future of returns management is coming soon.</p>
+        <button class="cta-button" data-cta="hero-join-waitlist" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">Join the Waitlist</button>
     </section>
 
     <section class="about-section" id="about">
@@ -507,24 +446,44 @@
         </div>
     </section>
 
-    <section class="form-section" id="scan-form">
-        <div class="form-container"> 
-            <div class="custom-form" style="text-align: center; padding: 4rem 3rem;">
-                <div style="font-size: 4rem; margin-bottom: 2rem;">📋</div>
-                <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #333;">Ready to Start Your Return?</h3>
-                <p style="color: #666; font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Click the button below to access our secure return form. You'll be able to upload images, documents, and provide all necessary details for your return.
-                </p>
+    <section class="waitlist-section" id="waitlist">
+        <div class="waitlist-container">
+            <div class="waitlist-form">
+                <div class="success-message" id="successMessage">
+                    <strong>✅ Success!</strong> You're on the waitlist. Check your email for confirmation!
+                </div>
                 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfsF7gBr-n2COemt5Ig2-zdVpg7Jy1fUpmDj26iJFF9C318Ng/viewform?usp=dialog" target="_blank" style="text-decoration: none;">
-                    <button class="submit-button" data-cta="open-form" style="width: auto; padding: 1.25rem 3rem; display: inline-block;">
-                        Open Return Form →
+                <h3>Join the Waitlist</h3>
+                <p>Be the first to know when ReturnsX launches. Get exclusive early access and special launch pricing.</p>
+                
+                <form id="waitlistForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Company (Optional)</label>
+                        <input type="text" id="company" name="company" placeholder="Your Company">
+                    </div>
+                    
+                    <button type="submit" class="submit-button" id="submitBtn">
+                        Join Waitlist
                     </button>
-                </a>
+                    
+                    <p style="color: #999; font-size: 0.85rem; margin-top: 1rem;">
+                        We'll never share your email. You can unsubscribe anytime.
+                    </p>
+                </form>
                 
-                <p style="color: #999; font-size: 0.9rem; margin-top: 1.5rem;">
-                    Opens in a new tab • Secure Google Form
-                </p>
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+                    <p style="color: #667eea; font-weight: 600; font-size: 1.2rem;">🎉 <span id="waitlistCount">50</span> people have joined!</p>
+                </div>
             </div>
         </div>
     </section>
@@ -566,11 +525,84 @@
     </footer>
 
     <script>
-        // ========================================
-        // ANALYTICS TRACKING SYSTEM
-        // ========================================
+        // Waitlist counter animation
+        let currentCount = 1247;
+        function animateCount() {
+            const countElement = document.getElementById('waitlistCount');
+            currentCount += Math.floor(Math.random() * 3) + 1;
+            countElement.textContent = currentCount.toLocaleString();
+        }
+        setInterval(animateCount, 30000); // Update every 30 seconds
 
-        // Generate unique session ID
+        // Form submission
+        document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            // Get form values
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const company = formData.get('company');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Joining...';
+            
+            try {
+                // Send to Formspree
+                const response = await fetch('https://formspree.io/f/mnnozjlj', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        company: company || 'Not provided',
+                        _subject: 'New Waitlist Registration - ReturnsX',
+                        _replyto: email,
+                        message: `New waitlist signup:\n\nName: ${name}\nEmail: ${email}\nCompany: ${company || 'Not provided'}\n\nTimestamp: ${new Date().toLocaleString()}`
+                    })
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('successMessage').classList.add('show');
+                    
+                    // Show notification
+                    const notification = document.getElementById('notification');
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 5000);
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Update counter
+                    animateCount();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('show');
+                    }, 5000);
+                } else {
+                    alert('Oops! Something went wrong. Please try again.');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Network error. Please check your connection and try again.');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join Waitlist';
+            }
+        });
+
+        // Analytics tracking (same as before)
         const sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         
         const analytics = {
@@ -582,7 +614,7 @@
             ctaClicks: 0,
             navClicks: 0,
             featureHovers: new Set(),
-            formClicks: 0,
+            waitlistSubmissions: 0,
             events: [],
             location: null,
             device: {
@@ -595,12 +627,8 @@
             }
         };
 
-        // ========================================
-        // LOCATION TRACKING
-        // ========================================
         async function getLocationData() {
             try {
-                // Using ipapi.co - free tier allows 1000 requests/day
                 const response = await fetch('https://ipapi.co/json/');
                 const data = await response.json();
                 
@@ -623,12 +651,8 @@
             }
         }
 
-        // Get location on page load
         getLocationData();
 
-        // ========================================
-        // SEND DATA TO SERVER/DATABASE
-        // ========================================
         async function sendAnalyticsUpdate() {
             const data = {
                 ...analytics,
@@ -637,84 +661,20 @@
                 lastUpdate: Date.now()
             };
 
-            // DEMO MODE: Using localStorage to simulate a database
-            // This acts as a "central database" that all users write to
             try {
-                // Get all existing sessions from the "database"
                 const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
-                
-                // Update or add this session
                 allSessions[sessionId] = data;
-                
-                // Save back to "database"
                 localStorage.setItem('returnsx_sessions', JSON.stringify(allSessions));
-                
                 console.log('✅ Analytics sent to database');
-                
-                /* 
-                ============================================
-                PRODUCTION CODE - Replace everything above with:
-                ============================================
-                
-                await fetch('https://your-backend.com/api/analytics', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-API-Key': 'your-secret-api-key'
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                ============================================
-                BACKEND STRUCTURE (Node.js/Express example):
-                ============================================
-                
-                // Store in MongoDB, PostgreSQL, Firebase, etc.
-                app.post('/api/analytics', async (req, res) => {
-                    const session = req.body;
-                    
-                    // Save to database
-                    await db.collection('sessions').updateOne(
-                        { sessionId: session.sessionId },
-                        { $set: session },
-                        { upsert: true }
-                    );
-                    
-                    res.json({ success: true });
-                });
-                
-                // Admin endpoint to get all sessions
-                app.get('/api/analytics/sessions', async (req, res) => {
-                    // Verify admin authentication
-                    if (req.headers.authorization !== 'Bearer YOUR_ADMIN_TOKEN') {
-                        return res.status(401).json({ error: 'Unauthorized' });
-                    }
-                    
-                    // Get all sessions from database
-                    const sessions = await db.collection('sessions')
-                        .find({})
-                        .sort({ pageLoadTime: -1 })
-                        .toArray();
-                    
-                    res.json(sessions);
-                });
-                
-                ============================================
-                */
             } catch (error) {
                 console.error('❌ Error sending analytics:', error);
             }
         }
 
-        // Send updates every 10 seconds (real-time tracking)
         setInterval(sendAnalyticsUpdate, 10000);
-
-        // Send immediately on first load
         setTimeout(sendAnalyticsUpdate, 2000);
 
-        // Send on page exit
         window.addEventListener('beforeunload', () => {
-            // Use sendBeacon for reliable delivery even when page is closing
             const data = {
                 ...analytics,
                 featureHovers: Array.from(analytics.featureHovers),
@@ -722,19 +682,11 @@
                 lastUpdate: Date.now()
             };
             
-            // Final update before leaving
             const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
             allSessions[sessionId] = data;
             localStorage.setItem('returnsx_sessions', JSON.stringify(allSessions));
-            
-            /* In production, use:
-            navigator.sendBeacon('https://your-backend.com/api/analytics', 
-                JSON.stringify(data)
-            );
-            */
         });
 
-        // Track event
         function trackEvent(eventType, eventData) {
             const event = {
                 type: eventType,
@@ -744,22 +696,15 @@
             analytics.events.push(event);
             console.log('📊 Event Tracked:', event);
             
-            // Send update after important events
-            if (['cta_click', 'scroll_milestone'].includes(eventType)) {
+            if (['cta_click', 'scroll_milestone', 'waitlist_submit'].includes(eventType)) {
                 sendAnalyticsUpdate();
             }
         }
 
-        // ========================================
-        // 1. TIME ON PAGE TRACKING
-        // ========================================
         setInterval(() => {
             analytics.timeOnPage = Math.floor((Date.now() - analytics.pageLoadTime) / 1000);
         }, 1000);
 
-        // ========================================
-        // 2. SCROLL DEPTH TRACKING
-        // ========================================
         let scrollTimeout;
         window.addEventListener('scroll', () => {
             clearTimeout(scrollTimeout);
@@ -773,7 +718,6 @@
                 if (analytics.scrollDepth > analytics.maxScrollDepth) {
                     analytics.maxScrollDepth = analytics.scrollDepth;
                     
-                    // Track milestone scrolls
                     if (analytics.maxScrollDepth >= 25 && !analytics.scroll25) {
                         analytics.scroll25 = true;
                         trackEvent('scroll_milestone', { depth: 25 });
@@ -794,17 +738,10 @@
             }, 100);
         });
 
-        // ========================================
-        // 3. CTA BUTTON CLICK TRACKING
-        // ========================================
         document.querySelectorAll('[data-cta]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const ctaId = e.currentTarget.getAttribute('data-cta');
                 analytics.ctaClicks++;
-                
-                if (ctaId === 'open-form') {
-                    analytics.formClicks++;
-                }
                 
                 trackEvent('cta_click', {
                     ctaId: ctaId,
@@ -814,7 +751,6 @@
             });
         });
 
-        // Track navigation clicks
         document.querySelectorAll('[data-nav]').forEach(link => {
             link.addEventListener('click', (e) => {
                 const navId = e.currentTarget.getAttribute('data-nav');
@@ -827,9 +763,6 @@
             });
         });
 
-        // ========================================
-        // 4. HOVER EVENT TRACKING
-        // ========================================
         document.querySelectorAll('[data-feature]').forEach(card => {
             let hoverStartTime;
             let hasTrackedHover = false;
@@ -860,321 +793,18 @@
             });
         });
 
-        // Track step card hovers
-        document.querySelectorAll('.step').forEach((step, index) => {
-            let hoverStartTime;
-            
-            step.addEventListener('mouseenter', () => {
-                hoverStartTime = Date.now();
-            });
-            
-            step.addEventListener('mouseleave', () => {
-                if (hoverStartTime) {
-                    const hoverDuration = Date.now() - hoverStartTime;
-                    if (hoverDuration > 500) {
-                        trackEvent('step_hover', {
-                            stepNumber: index + 1,
-                            duration: hoverDuration,
-                            timeOnPage: analytics.timeOnPage
-                        });
-                    }
-                }
+        // Track waitlist form submission
+        document.getElementById('waitlistForm').addEventListener('submit', () => {
+            analytics.waitlistSubmissions++;
+            trackEvent('waitlist_submit', {
+                timeOnPage: analytics.timeOnPage,
+                scrollDepth: analytics.maxScrollDepth
             });
         });
 
-        // ========================================
-        // ADMIN PANEL FUNCTIONALITY
-        // ========================================
-        const ADMIN_PASSWORD = 'admin123'; // Change this to your secure password
-        let isAdmin = false;
-
-        // Check if admin access is already granted (stored in sessionStorage)
-        if (sessionStorage.getItem('adminAccess') === 'true') {
-            isAdmin = true;
-            showAdminPanel();
-        }
-
-        // Show admin toggle button on specific key combination (Ctrl+Shift+A)
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-                document.getElementById('adminToggle').style.display = 'block';
-            }
-        });
-
-        document.getElementById('adminToggle').addEventListener('click', () => {
-            const panel = document.getElementById('adminPanel');
-            panel.classList.toggle('show');
-        });
-
-        function adminLogin() {
-            const password = document.getElementById('adminPassword').value;
-            
-            if (password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                sessionStorage.setItem('adminAccess', 'true');
-                showAdminPanel();
-                loadSessions();
-            } else {
-                alert('Incorrect password');
-            }
-        }
-
-        function showAdminPanel() {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminContent').style.display = 'block';
-            document.getElementById('adminToggle').style.display = 'block';
-        }
-
-        function loadSessions() {
-            // DEMO MODE: Load from localStorage
-            const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
-            
-            /* PRODUCTION CODE - Replace above with:
-            
-            fetch('https://your-backend.com/api/analytics/sessions', {
-                headers: {
-                    'Authorization': 'Bearer YOUR_ADMIN_TOKEN'
-                }
-            })
-            .then(res => res.json())
-            .then(sessions => {
-                displaySessions(sessions);
-            });
-            
-            */
-            
-            displaySessions(allSessions);
-        }
-
-        function displaySessions(allSessions) {
-            const sessionList = document.getElementById('sessionList');
-            const sessionCount = document.getElementById('sessionCount');
-            
-            // Convert object to array and sort by most recent
-            const sessions = Object.values(allSessions).sort((a, b) => b.pageLoadTime - a.pageLoadTime);
-            sessionCount.textContent = sessions.length;
-            
-            if (sessions.length === 0) {
-                sessionList.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;">No sessions yet. Waiting for visitors...</p>';
-                return;
-            }
-            
-            sessionList.innerHTML = sessions.map((session, index) => {
-                const location = session.location ? 
-                    `${session.location.city || 'Unknown'}, ${session.location.country || 'Unknown'}` : 
-                    'Fetching location...';
-                
-                const engagement = calculateEngagement(session);
-                const isActive = (Date.now() - (session.lastUpdate || session.pageLoadTime)) < 30000; // Active if updated in last 30s
-                
-                return `
-                    <div class="session-card" onclick='showSessionDetail(${JSON.stringify(session).replace(/'/g, "&#39;")})'>
-                        <div class="session-header">
-                            <span>📍 ${location}</span>
-                            <span style="color: ${engagement.color}">${engagement.label}</span>
-                        </div>
-                        ${isActive ? '<div style="background: #48bb78; color: white; padding: 0.25rem 0.5rem; border-radius: 5px; font-size: 0.7rem; display: inline-block; margin-bottom: 0.5rem;">🟢 ACTIVE NOW</div>' : ''}
-                        <div class="session-stat">
-                            <span>Session ID:</span>
-                            <span style="font-size: 0.7rem; color: #999;">${session.sessionId.substring(0, 20)}...</span>
-                        </div>
-                        <div class="session-stat">
-                            <span>Time:</span>
-                            <span><strong>${session.timeOnPage}s</strong></span>
-                        </div>
-                        <div class="session-stat">
-                            <span>Scroll:</span>
-                            <span><strong>${session.maxScrollDepth}%</strong></span>
-                        </div>
-                        <div class="session-stat">
-                            <span>CTA Clicks:</span>
-                            <span><strong>${session.ctaClicks}</strong></span>
-                        </div>
-                        <div class="session-stat">
-                            <span>Form Clicks:</span>
-                            <span><strong>${session.formClicks}</strong></span>
-                        </div>
-                        <div class="session-stat">
-                            <span>Events:</span>
-                            <span><strong>${session.events.length}</strong></span>
-                        </div>
-                        <div style="font-size: 0.7rem; color: #999; margin-top: 0.5rem;">
-                            Started: ${new Date(session.pageLoadTime).toLocaleString()}
-                        </div>
-                        ${session.lastUpdate ? `<div style="font-size: 0.7rem; color: #999;">Last Update: ${new Date(session.lastUpdate).toLocaleTimeString()}</div>` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function calculateEngagement(session) {
-            let score = 0;
-            
-            if (session.timeOnPage > 30) score += 2;
-            if (session.timeOnPage > 60) score += 2;
-            if (session.maxScrollDepth > 50) score += 2;
-            if (session.maxScrollDepth > 75) score += 2;
-            if (session.ctaClicks > 0) score += 3;
-            if (session.formClicks > 0) score += 4;
-            
-            if (score >= 10) return { label: 'Hot 🔥', color: '#f56565' };
-            if (score >= 6) return { label: 'Warm 🌡️', color: '#ed8936' };
-            if (score >= 3) return { label: 'Cool ❄️', color: '#4299e1' };
-            return { label: 'Cold 🧊', color: '#a0aec0' };
-        }
-
-        function showSessionDetail(session) {
-            const detail = `
-╔════════════════════════════════════════════════════════════╗
-║              SESSION DETAIL REPORT                          ║
-╚════════════════════════════════════════════════════════════╝
-
-🆔 Session ID: ${session.sessionId}
-
-📍 LOCATION INFORMATION:
-   City:         ${session.location?.city || 'Unknown'}
-   Region:       ${session.location?.region || 'Unknown'}
-   Country:      ${session.location?.country || 'Unknown'}
-   Country Code: ${session.location?.countryCode || 'Unknown'}
-   Timezone:     ${session.location?.timezone || 'Unknown'}
-   IP Address:   ${session.location?.ip || 'Unknown'}
-   Coordinates:  ${session.location?.latitude || '?'}, ${session.location?.longitude || '?'}
-
-⏱️  ENGAGEMENT METRICS:
-   Time on Page:      ${session.timeOnPage}s (${Math.floor(session.timeOnPage / 60)}m ${session.timeOnPage % 60}s)
-   Max Scroll Depth:  ${session.maxScrollDepth}%
-   CTA Clicks:        ${session.ctaClicks}
-   Form Clicks:       ${session.formClicks}
-   Nav Clicks:        ${session.navClicks}
-   Feature Hovers:    ${session.featureHovers ? session.featureHovers.length : 0}
-   ${session.featureHovers && session.featureHovers.length > 0 ? `Hovered Features: ${session.featureHovers.join(', ')}` : ''}
-
-📱 DEVICE INFORMATION:
-   Viewport:    ${session.device.viewport.width}x${session.device.viewport.height}
-   User Agent:  ${session.device.userAgent}
-   Referrer:    ${session.device.referrer || 'Direct (no referrer)'}
-
-📅 TIMING:
-   Page Load:   ${new Date(session.pageLoadTime).toLocaleString()}
-   Last Update: ${session.lastUpdate ? new Date(session.lastUpdate).toLocaleString() : 'N/A'}
-   Timestamp:   ${session.timestamp || 'N/A'}
-
-🎯 USER EVENTS (${session.events.length} total):
-${session.events.length === 0 ? '   No events recorded yet.' : session.events.map((e, i) => {
-    const timeStr = Math.floor(e.timestamp/1000);
-    const eventData = JSON.stringify(e.data || {});
-    return `   ${i + 1}. [${timeStr}s] ${e.type} ${eventData !== '{}' ? eventData : ''}`;
-}).join('\n')}
-
-═══════════════════════════════════════════════════════════════
-            `;
-            
-            console.log(detail);
-            
-            // Also create a downloadable report
-            const blob = new Blob([detail], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            
-            // Ask user if they want to download
-            if (confirm('Session details logged to console.\n\nWould you like to download a full report?')) {
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `session-${session.sessionId.substring(0, 15)}-${Date.now()}.txt`;
-                a.click();
-            }
-        }
-
-        function refreshSessions() {
-            loadSessions();
-            console.log('🔄 Sessions refreshed');
-        }
-
-        function exportAllSessions() {
-            const allSessions = JSON.parse(localStorage.getItem('returnsx_sessions') || '{}');
-            const sessions = Object.values(allSessions);
-            
-            // Create detailed CSV export
-            const csv = [
-                ['Session ID', 'Start Time', 'Time on Page (s)', 'Max Scroll %', 'CTA Clicks', 'Form Clicks', 'Nav Clicks', 'Feature Hovers', 'City', 'Region', 'Country', 'IP', 'Referrer', 'Viewport', 'Events Count', 'Engagement'].join(','),
-                ...sessions.map(s => {
-                    const engagement = calculateEngagement(s);
-                    return [
-                        s.sessionId,
-                        new Date(s.pageLoadTime).toISOString(),
-                        s.timeOnPage,
-                        s.maxScrollDepth,
-                        s.ctaClicks,
-                        s.formClicks,
-                        s.navClicks,
-                        (s.featureHovers || []).length,
-                        s.location?.city || '',
-                        s.location?.region || '',
-                        s.location?.country || '',
-                        s.location?.ip || '',
-                        s.device?.referrer || 'Direct',
-                        `${s.device?.viewport?.width}x${s.device?.viewport?.height}`,
-                        s.events.length,
-                        engagement.label
-                    ].join(',');
-                })
-            ].join('\n');
-            
-            // Download CSV
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `returnsx-all-sessions-${Date.now()}.csv`;
-            a.click();
-            
-            // Also download JSON for full detail
-            const jsonBlob = new Blob([JSON.stringify(sessions, null, 2)], { type: 'application/json' });
-            const jsonUrl = URL.createObjectURL(jsonBlob);
-            const jsonA = document.createElement('a');
-            jsonA.href = jsonUrl;
-            jsonA.download = `returnsx-all-sessions-${Date.now()}.json`;
-            
-            if (confirm('CSV exported! Would you also like the full JSON export with all event details?')) {
-                jsonA.click();
-            }
-            
-            console.log(`📥 Exported ${sessions.length} sessions`);
-        }
-
-        function clearAllSessions() {
-            if (confirm(`⚠️ Are you sure you want to delete ALL ${Object.keys(JSON.parse(localStorage.getItem('returnsx_sessions') || '{}')).length} sessions?\n\nThis cannot be undone!`)) {
-                if (confirm('Really delete? This is your last chance!')) {
-                    localStorage.setItem('returnsx_sessions', '{}');
-                    loadSessions();
-                    console.log('🗑️ All sessions cleared');
-                    alert('✅ All sessions have been deleted');
-                }
-            }
-        }
-
-        // Auto-refresh sessions every 15 seconds when admin panel is open
-        setInterval(() => {
-            if (isAdmin && document.getElementById('adminPanel').classList.contains('show')) {
-                loadSessions();
-                console.log('🔄 Auto-refresh: Sessions updated');
-            }
-        }, 15000);
-
-        console.log('📊 Analytics System Active');
-        console.log('🔐 Admin Panel: Press Ctrl+Shift+A to access');
+        console.log('📊 ReturnsX Waitlist Page Active');
         console.log('💡 Session ID:', sessionId);
-        console.log('📝 All user data is being logged to centralized database');
-        console.log('');
-        console.log('═══════════════════════════════════════════════════════════');
-        console.log('🚀 PRODUCTION DEPLOYMENT CHECKLIST:');
-        console.log('═══════════════════════════════════════════════════════════');
-        console.log('1. Replace localStorage with real database API calls');
-        console.log('2. Set up backend server (Node.js/Python/etc)');
-        console.log('3. Change ADMIN_PASSWORD to a secure value');
-        console.log('4. Add proper authentication (JWT tokens recommended)');
-        console.log('5. Set up database (MongoDB, PostgreSQL, Firebase, etc)');
-        console.log('6. Optional: Add real-time websocket updates');
-        console.log('═══════════════════════════════════════════════════════════');
+        console.log('📧 Email collection: Formspree configured');
     </script>
 </body>
 </html>
